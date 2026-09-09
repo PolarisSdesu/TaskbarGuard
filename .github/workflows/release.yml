@@ -36,7 +36,7 @@ jobs:
           cl.exe /nologo /std:c++17 /O1 /Os /GL /EHsc /DUNICODE /D_UNICODE /MT
           TaskbarGuard.cpp
           /link /SUBSYSTEM:WINDOWS /LTCG /OPT:REF /OPT:ICF
-          shell32.lib advapi32.lib
+          user32.lib shell32.lib advapi32.lib
           /OUT:TaskbarGuard-${{ matrix.name }}.exe
 
       - name: Upload artifact
