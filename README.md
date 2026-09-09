@@ -1,6 +1,6 @@
 # Taskbar Guard Lite
 
-一个只有约 20 KB 的 Windows 任务栏控制工具。
+一个只有约 100 KB 的 Windows 任务栏控制工具。
 
 Windows 开启“自动隐藏任务栏”后，鼠标移动到屏幕边缘或应用收到通知时，任务栏仍可能自动弹出。Taskbar Guard Lite 提供一个“强制隐藏”模式，让任务栏保持隐藏，避免遮挡 Photoshop、Illustrator、Premiere Pro 等应用底部的操作区域。
 
