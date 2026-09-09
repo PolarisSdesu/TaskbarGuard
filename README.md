@@ -19,10 +19,11 @@ Windows 开启“自动隐藏任务栏”后，鼠标移动到屏幕边缘或应
 
 ## 下载与运行
 
-运行项目目录中的：
+根据设备架构运行对应版本：
 
 ```text
-TaskbarGuard-Lite-Dark.exe
+TaskbarGuard-x64.exe
+TaskbarGuard-arm64.exe
 ```
 
 程序启动后不会显示主窗口，而是常驻系统托盘。
@@ -63,11 +64,9 @@ TaskbarGuard-Lite-Dark.exe
 
 ```text
 TaskbarGuard/
-├── native/
-│   ├── TaskbarGuard.cpp   # 完整的 Win32 C++ 源码
-│   └── build.ps1          # MinGW-w64 构建脚本
-├── TaskbarGuard-Lite-Dark.exe
-├── TaskbarGuard-Lite.exe  # 早期构建版本
+├── .github/workflows/release.yml
+├── TaskbarGuard.cpp       # 完整的 Win32 C++ 源码
+├── build.ps1              # 本地 x64 构建脚本
 ├── LICENSE                # MIT 许可证
 └── README.md
 ```
@@ -89,15 +88,15 @@ g++ --version
 在项目根目录运行：
 
 ```powershell
-.\native\build.ps1
+.\build.ps1
 ```
 
 构建脚本相当于执行：
 
 ```powershell
 g++ -std=c++17 -Os -s -mwindows -municode -static `
-    .\native\TaskbarGuard.cpp `
-    -o .\TaskbarGuard-Lite.exe `
+    .\TaskbarGuard.cpp `
+    -o .\TaskbarGuard-x64.exe `
     -lshell32 -ladvapi32
 ```
 
@@ -109,7 +108,7 @@ g++ -std=c++17 -Os -s -mwindows -municode -static `
 - `-municode`：使用 Unicode 程序入口
 - `-static`：静态链接运行库，生成可独立运行的单文件
 
-如果正式版正在运行，Windows 会阻止构建脚本覆盖 EXE。请先从托盘菜单正常退出，再重新构建。
+如果正式版正在运行，Windows 会阻止构建脚本覆盖 EXE。请先从托盘菜单正常退出，再重新构建。ARM64 正式版由 GitHub Actions 使用 MSVC 交叉编译。
 
 ## 工作原理
 

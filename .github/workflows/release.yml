@@ -1,0 +1,47 @@
+name: Build Windows release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: x64
+            msvc_arch: x64
+          - name: arm64
+            msvc_arch: amd64_arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.msvc_arch }}
+
+      - name: Build
+        shell: cmd
+        run: >-
+          cl.exe /nologo /std:c++17 /O1 /Os /GL /EHsc /DUNICODE /D_UNICODE /MT
+          TaskbarGuard.cpp
+          /link /SUBSYSTEM:WINDOWS /LTCG /OPT:REF /OPT:ICF
+          shell32.lib advapi32.lib
+          /OUT:TaskbarGuard-${{ matrix.name }}.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TaskbarGuard-${{ matrix.name }}
+          path: TaskbarGuard-${{ matrix.name }}.exe
+          if-no-files-found: error
